@@ -16,9 +16,9 @@ st.write('The name on your Smoothie will be:', name_on_order)
 cnx = st.connection("snowflake")
 session = cnx.session()
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'), col('SEARCH_ON'), col('ORDER_FILLED'))
-st.dataframe(data=my_dataframe, use_container_width=True)
+# st.dataframe(data=my_dataframe, use_container_width=True)
 editable_df = st.data_editor(my_dataframe)
-st.stop()
+# st.stop()
 
 # Convert the Snowpark Dataframe to Pandas DataFrame so we can use the loc function
 pd_df = my_dataframe.to_pandas()
