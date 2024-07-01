@@ -16,6 +16,7 @@ st.write('The name on your Smoothie will be:', name_on_order)
 cnx = st.connection("snowflake")
 session = cnx.session()
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'), col('SEARCH_ON'))
+editable_df = st.data_editor(my_dataframe)
 
 # Convert the Snowpark Dataframe to Pandas DataFrame so we can use the loc function
 pd_df = my_dataframe.to_pandas()
@@ -50,10 +51,4 @@ if ingredients_list:
         session.sql(my_insert_stmt).collect()
         st.success(f'Your Smoothie is ordered, {name_on_order}!', icon="✅")
         
-for order in orders:
-    name, fruits, filled = order
-    insert_stmt = f"""
-    INSERT INTO smoothies.public.orders (ingredients, name_on_order, order_filled)
-    VALUES ('{fruits}', '{name}', {str(filled).upper()})
-    """
-    session.sql(insert_stmt).collect() 
+
